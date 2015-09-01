@@ -1,6 +1,5 @@
 package com.tw.httpserver;
 
-import io.netty.channel.ChannelHandler;
 import io.netty.handler.ssl.SslContext;
 
 import io.netty.channel.ChannelInitializer;
