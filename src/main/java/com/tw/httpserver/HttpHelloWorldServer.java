@@ -17,7 +17,8 @@ import io.netty.handler.ssl.SslContext;
 public final class HttpHelloWorldServer {
 
     static final boolean SSL = System.getProperty("ssl") != null;
-    static final int PORT = Integer.parseInt(System.getProperty("PORT", "8080"));
+//    static final int PORT = Integer.parseInt(System.getProperty("PORT", "8080"));
+    static final int PORT = Integer.parseInt(System.getenv("PORT"));
 
     public static void main(String[] args) throws Exception {
         // Configure SSL.
