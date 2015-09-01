@@ -4,10 +4,8 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.*;
+
 
 import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 import static io.netty.handler.codec.http.HttpHeaders.Values;
@@ -31,6 +29,8 @@ public class HttpHelloWorldServerHandler extends ChannelInboundHandlerAdapter {
                 ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
             }
             boolean keepAlive = HttpHeaders.isKeepAlive(req);
+            System.out.println("keep alive" + keepAlive);
+
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(CONTENT));
             response.headers().set(CONTENT_TYPE, "text/plain");
             response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
@@ -39,7 +39,8 @@ public class HttpHelloWorldServerHandler extends ChannelInboundHandlerAdapter {
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
                 response.headers().set(CONNECTION, Values.KEEP_ALIVE);
-                ctx.write(response);
+//                ctx.write(response);
+                ctx.write(new DefaultHttpResponse(HttpVersion.HTTP_1_1, new HttpResponseStatus(404, "Unknown"), true));
             }
         }
     }
